@@ -58,10 +58,6 @@ VALUES
 ('Truck'),
 ('Sedan');
 
-------------------------------------------------------
---  TONY STARK QUERIES
-------------------------------------------------------
-
 -- 7) Insert Tony Stark
 INSERT INTO public.account (account_firstname, account_lastname, account_email, account_password, account_type)
 VALUES ('Tony', 'Stark', 'tony@starkindustries.com', 'IamIronMan123', 'Admin');
@@ -75,7 +71,16 @@ WHERE account_firstname = 'Tony' AND account_lastname = 'Stark';
 DELETE FROM public.account
 WHERE account_firstname = 'Tony' AND account_lastname = 'Stark';
 
--- 10) Update vehicle description
+-- 10) Update vehicle description 
+INSERT INTO public.inventory (
+    inv_make, inv_model, inv_year, inv_image, inv_thumbnail, 
+    inv_description, inv_color, inv_name, inv_price, inv_miles, classification_id
+) VALUES (
+    'Toyota', 'Camry', 2022, '/images/camry.jpg', '/images/camry-tn.jpg',
+    'A reliable sedan', 'Blue', 'Toyota Camry', 25000.00, 15000, 5
+);
+
+-- Now update the description
 UPDATE public.inventory
 SET inv_description = 'A reliable and stylish vehicle, updated for better performance.'
 WHERE inv_id = 1;
