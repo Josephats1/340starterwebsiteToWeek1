@@ -58,41 +58,33 @@ VALUES
 ('Truck'),
 ('Sedan');
 
--- 7) Insert Tony Stark
-INSERT INTO public.account (account_firstname, account_lastname, account_email, account_password, account_type)
-VALUES ('Tony', 'Stark', 'tony@starkindustries.com', 'IamIronMan123', 'Admin');
+-- 1. Insert Tony Stark record
+INSERT INTO public.account (account_firstname, account_lastname, account_email, account_password)
+VALUES ('Tony', 'Stark', 'tony@starkent.com', 'Iam1ronM@n');
 
--- 8) Update Tony Stark email
+-- 2. Modify Tony Stark record to change account_type to "Admin"
 UPDATE public.account
-SET account_email = 'ironman@avengers.com'
+SET account_type = 'Admin'
 WHERE account_firstname = 'Tony' AND account_lastname = 'Stark';
 
--- 9) Delete Tony Stark
+-- 3. Delete the Tony Stark record from the database
 DELETE FROM public.account
 WHERE account_firstname = 'Tony' AND account_lastname = 'Stark';
 
--- 10) Update vehicle description 
-INSERT INTO public.inventory (
-    inv_make, inv_model, inv_year, inv_image, inv_thumbnail, 
-    inv_description, inv_color, inv_name, inv_price, inv_miles, classification_id
-) VALUES (
-    'Toyota', 'Camry', 2022, '/images/camry.jpg', '/images/camry-tn.jpg',
-    'A reliable sedan', 'Blue', 'Toyota Camry', 25000.00, 15000, 5
-);
-
--- Now update the description
+-- 4. Modify the "GM Hummer" record description
 UPDATE public.inventory
-SET inv_description = 'A reliable and stylish vehicle, updated for better performance.'
-WHERE inv_id = 1;
+SET inv_description = REPLACE(inv_description, 'small interiors', 'a huge interior')
+WHERE inv_make = 'GM' AND inv_model = 'Hummer';
 
--- 11) Select with JOIN (list vehicles with classifications)
-SELECT i.inv_id, i.inv_make, i.inv_model, i.inv_year, c.classification_name
-FROM public.inventory i
-JOIN public.classification c
-ON i.classification_id = c.classification_id;
+-- 5. Use inner join to select Sport category vehicles
+SELECT inv_make, inv_model, classification_name
+FROM public.inventory
+INNER JOIN public.classification 
+ON inventory.classification_id = classification.classification_id
+WHERE classification_name = 'Sport';
 
--- 12) Update images
+-- 6. Update image paths to add "/vehicles"
 UPDATE public.inventory
-SET inv_image = '/images/updated-car.jpg',
-    inv_thumbnail = '/images/updated-car-thumb.jpg'
-WHERE inv_id = 1;
+SET 
+    inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
+    inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
