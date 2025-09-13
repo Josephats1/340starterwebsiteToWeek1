@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS public.inventory
 ALTER TABLE IF EXISTS public.inventory
 ADD CONSTRAINT fk_classification
 FOREIGN KEY (classification_id)
-REFERENCES public.classification (classification_id)
+REFERENCES public.classification (classification_id)                      
 ON UPDATE CASCADE
 ON DELETE NO ACTION;
 
@@ -57,3 +57,37 @@ VALUES
 ('SUV'),
 ('Truck'),
 ('Sedan');
+
+------------------------------------------------------
+--  TONY STARK QUERIES
+------------------------------------------------------
+
+-- 7) Insert Tony Stark
+INSERT INTO public.account (account_firstname, account_lastname, account_email, account_password, account_type)
+VALUES ('Tony', 'Stark', 'tony@starkindustries.com', 'IamIronMan123', 'Admin');
+
+-- 8) Update Tony Stark email
+UPDATE public.account
+SET account_email = 'ironman@avengers.com'
+WHERE account_firstname = 'Tony' AND account_lastname = 'Stark';
+
+-- 9) Delete Tony Stark
+DELETE FROM public.account
+WHERE account_firstname = 'Tony' AND account_lastname = 'Stark';
+
+-- 10) Update vehicle description
+UPDATE public.inventory
+SET inv_description = 'A reliable and stylish vehicle, updated for better performance.'
+WHERE inv_id = 1;
+
+-- 11) Select with JOIN (list vehicles with classifications)
+SELECT i.inv_id, i.inv_make, i.inv_model, i.inv_year, c.classification_name
+FROM public.inventory i
+JOIN public.classification c
+ON i.classification_id = c.classification_id;
+
+-- 12) Update images
+UPDATE public.inventory
+SET inv_image = '/images/updated-car.jpg',
+    inv_thumbnail = '/images/updated-car-thumb.jpg'
+WHERE inv_id = 1;
